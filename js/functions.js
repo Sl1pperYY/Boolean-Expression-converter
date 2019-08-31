@@ -57,57 +57,61 @@ function xnorGate(input1, input2) {
 // Shunting yard algorithm
 // ==========================================================
 
-
-function ShuntingYardAlgorithm() {
-
-  this.infixToPostfix = function(infix) {
-    var outputQueue = "";
-    var operatorStack = [];
-    var operators = {
-      "!": {
-        precedence: 4,
-        associativity: "Right"
-      },
-      "^": {
-        precedence: 3,
-        associativity: "Left"
-      },
-      "*": {
-        precedence: 2,
-        associativity: "Left"
-      },
-      "+": {
-        precedence: 1,
-        associativity: "Left"
-      }
-    }
-    infix = infix.replace(/\s+/g, "");
-    infix = infix.split(/([\!\^\*\+\(\)])/).clean();
-    for(var i = 0; i < infix.length; i++) {
-      var token = infix[i];
-      if(token.isNumeric()) {
-        outputQueue += token + " ";
-      } else if("!^*+".indexOf(token) !== -1) {
-        var operator1 = token;
-        var operator2 = operatorStack[operatorStack.length -1];
-        while("!^*+".indexOf(operator2) !== -1 && ((operators[operator1].associativity === "Left" && operatos[operator1].precedence <= operators[operator2].precedence) || (operators[operator1].associativity === "Right" && operators[operator1].precedence < operators[operator2].precedence))) {
-          outputQueue += operatorStack.pop() + " ";
-          operator2 = operatorStack[operatorStack.length -1];
+class ShuntingYardAlgorithm {
+  
+  constructor() {
+    this.infixToPostfix = function (infix) {
+      var outputQueue = "";
+      var operatorStack = [];
+      var operators = {
+        "!": {
+          precedence: 4,
+          associativity: "Right"
+        },
+        "^": {
+          precedence: 3,
+          associativity: "Left"
+        },
+        "*": {
+          precedence: 2,
+          associativity: "Left"
+        },
+        "+": {
+          precedence: 1,
+          associativity: "Left"
         }
-        operatorStack.push(operator1);
-      } else if(token === "(") {
-        operatorStack.push(token);
-      } else if(token === ")") {
-        while(operatorStack[operatorStack.lenght - 1] !== "(") {
-          outputQueue += operatorStack.pop() + " ";
+      };
+      infix = infix.replace(/\s+/g, "");
+      infix = infix.split(/([\!\^\*\+\(\)])/).clean();
+      for (var i = 0; i < infix.length; i++) {
+        var token = infix[i];
+        if (token.isNumeric()) {
+          outputQueue += token + " ";
         }
-        operatorStack.pop();
+        else if ("!^*+".indexOf(token) !== -1) {
+          var operator1 = token;
+          var operator2 = operatorStack[operatorStack.length - 1];
+          while ("!^*+".indexOf(operator2) !== -1 && ((operators[operator1].associativity === "Left" && operatos[operator1].precedence <= operators[operator2].precedence) || (operators[operator1].associativity === "Right" && operators[operator1].precedence < operators[operator2].precedence))) {
+            outputQueue += operatorStack.pop() + " ";
+            operator2 = operatorStack[operatorStack.length - 1];
+          }
+          operatorStack.push(operator1);
+        }
+        else if (token === "(") {
+          operatorStack.push(token);
+        }
+        else if (token === ")") {
+          while (operatorStack[operatorStack.lenght - 1] !== "(") {
+            outputQueue += operatorStack.pop() + " ";
+          }
+          operatorStack.pop();
+        }
       }
-    }
-    while(operatorStack.length > 0) {
-      outputQueue += operatorStack.pop() + " ";
-    }
-    return outputQueue;
+      while (operatorStack.length > 0) {
+        outputQueue += operatorStack.pop() + " ";
+      }
+      return outputQueue;
+    };
   }
 }
 

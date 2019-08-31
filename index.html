@@ -10,6 +10,16 @@
     <script src="js/logicgates.js"></script>
 </head>
 <body>
-    
+    <div id="BoolString">
+        <input type="text" id="BoolIn"/>
+        <button onclick="" id="SimplifyButton">Simplify</button>
+    </div>
+    <script>
+        var sya = new ShuntingYardAlgorithm();
+        console.log(sya.infixToPostfix("1+2*3!4^5"));
+    </script>
+
+
 </body>
+    
 </html>
